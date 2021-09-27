@@ -46,7 +46,6 @@ const crearUsuario = async(req, res = response) => {
 
 const actualizarUsuario = async(req, res) => {
     const uid = req.params.id;
-    console.log(uid);
     try {
         const usuarioDB = await Usuario.findById(uid);
         if (!usuarioDB) {
@@ -55,11 +54,9 @@ const actualizarUsuario = async(req, res) => {
                 msg: "usuario no encontrado",
             });
         }
-        const campos = req.body;
-        if (usuarioDB.email === req.body.email) {
-            delete campos.email;
-        } else {
-            const existeEmail = await Usuario.findOne({ email: req.body.email });
+        const { password, google, email, ...campos } = req.body;
+        if (usuarioDB.email != email) {
+            const existeEmail = await Usuario.findOne({ email });
             if (existeEmail) {
                 return res.status(400).json({
                     ok: false,
@@ -67,8 +64,9 @@ const actualizarUsuario = async(req, res) => {
                 });
             }
         }
-        delete campos.password;
-        delete campos.google;
+
+        campos.email = email;
+
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, {
             new: true,
         });
