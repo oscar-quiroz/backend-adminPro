@@ -1,6 +1,7 @@
 const { response } = require("express");
 const Usuario = require('../models/usuario')
 const bcrypt = require("bcryptjs");
+const { generarJWT } = require("../helpers/jwt");
 
 const login = async(req, res = response) => {
 
@@ -27,10 +28,17 @@ const login = async(req, res = response) => {
         }
 
         //generar el jwt
+        const token = await generarJWT(usuarioDB.id)
 
 
-        res.json({ ok: true, msg: "dimelo" })
+        res.json({
+            ok: true,
+            msg: "Sesion iniciada correctamente",
+            token
+
+        })
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             ok: false,
             msg: "error inesperado",
