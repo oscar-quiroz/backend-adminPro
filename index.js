@@ -29,7 +29,8 @@ app.use("/api/hospitales", require("./routes/hospitales"));
 // rutas de medicos
 app.use("/api/medicos", require("./routes/medicos"));
 
-
+// rutas de busquedas
+app.use("/api/todo", require("./routes/busquedas"));
 
 //iniciar el sevidor
 app.listen(port, () => {
