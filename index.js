@@ -26,6 +26,12 @@ app.use("/api/usuarios", require("./routes/usuarios"));
 // rutas de hospitales
 app.use("/api/hospitales", require("./routes/hospitales"));
 
+// rutas de medicos
+app.use("/api/medicos", require("./routes/medicos"));
+
+
+
+//iniciar el sevidor
 app.listen(port, () => {
     console.log("servidor corriendo en puerto " + port);
 });
