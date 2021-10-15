@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+
+
 const validarJwt = (req, res, next) => {
 
     //leer headers

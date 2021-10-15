@@ -12,26 +12,23 @@ const {
     getHospitales,
     crearHospitales,
     actualizarHospitales,
-    borrarHospitales
-} = require('../controladores/hospitales.controller')
+    borrarHospitales,
+} = require("../controladores/hospitales.controller");
 
 const router = Router();
 
-router.get("/", getHospitales);
+router.get("/", [], getHospitales);
 
 router.post(
     "/", [
-
+        validarJwt,
+        check("nombre", "el nombre del hospital es necesario ").not().isEmpty(),
+        validarCampos,
     ],
     crearHospitales
 );
 
-router.put(
-    "/:id", [
-
-    ],
-    actualizarHospitales
-);
+router.put("/:id", [], actualizarHospitales);
 
 router.delete("/:id", borrarHospitales);
 
