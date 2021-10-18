@@ -63,6 +63,7 @@ const googleSignIn = async(req, res) => {
         } else {
             usuario = usuarioDB;
             usuario.google = true;
+
             usuario.password = "contraseñaPuestaPorGoogleSignIn";
         }
 
@@ -84,7 +85,15 @@ const googleSignIn = async(req, res) => {
     }
 };
 
+const renewToken = async(req, res = response) => {
+    const uid = req.uid;
+    const token = await generarJWT(uid);
+
+    res.json({ ok: true, token });
+};
+
 module.exports = {
     login,
     googleSignIn,
+    renewToken,
 };

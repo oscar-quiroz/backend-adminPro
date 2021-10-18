@@ -26,7 +26,7 @@ const validarJwt = (req, res, next) => {
 
     } catch (error) {
         return res.status(401).json({
-            ok: fasle,
+            ok: false,
             msg: 'token no valido'
         })
     }

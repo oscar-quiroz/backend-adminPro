@@ -37,17 +37,62 @@ const crearMedicos = async(req, res = response) => {
 };
 
 const actualizarMedicos = async(req, res = response) => {
-    res.json({
-        ok: true,
-        msg: "update medicos",
-    });
+    const id = req.params.id;
+    const uid = req.uid;
+
+    try {
+        const medicoDB = await Medico.findById(id);
+
+        if (!medicoDB) {
+            return res.status(404).json({
+                ok: false,
+                msg: "Medico no fue encontrado",
+            });
+        }
+        const cambiosMedico = {...req.body, usuario: uid };
+
+        const MedicoActulizado = await Medico.findByIdAndUpdate(id, cambiosMedico, {
+            new: true,
+        });
+
+        res.json({
+            ok: true,
+            medico: MedicoActulizado,
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: "Algo malo ha sucedido",
+        });
+    }
 };
 
 const borrarMedicos = async(req, res = response) => {
-    res.json({
-        ok: true,
-        msg: "delete medicos",
-    });
+    const id = req.params.id;
+
+    try {
+        const medicoDB = await Medico.findById(id);
+
+        if (!medicoDB) {
+            return res.status(404).json({
+                ok: false,
+                msg: "Medico no fue encontrado",
+            });
+        }
+
+
+        await Medico.findByIdAndDelete(id);
+
+        res.json({
+            ok: true,
+            msg: "medico eliminado",
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: "Algo malo ha sucedido",
+        });
+    }
 };
 
 module.exports = {
